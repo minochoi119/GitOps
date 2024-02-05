@@ -6,7 +6,7 @@ metadata:
   name: gitops-nginx
 spec:
 <<<<<<< HEAD
-  replicas: 5
+  replicas: 2
 =======
   replicas: 2
 >>>>>>> 868231b5aec306d9161ec4532235ab7ca829d5be
