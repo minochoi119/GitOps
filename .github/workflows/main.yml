@@ -23,7 +23,7 @@ jobs:
 
       - name: 필요한 라이브러리 설치
         run: |
-          pip install requests beautifulsoup4
+          pip install requests beautifulsoup4 cloudscraper
 
       - name: 파이썬 스크립트 실행
         env:
