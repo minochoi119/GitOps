@@ -2,9 +2,12 @@ name: Keyword Notification Bot
 
 on:
   schedule:
-    # 15분마다 실행되도록 설정 (UTC 기준)
     - cron: '*/15 * * * *'
-  workflow_dispatch: # 수동으로 실행해볼 수 있는 버튼
+  workflow_dispatch:
+
+# 깃허브 액션이 레포지토리의 last_id.txt 파일을 수정할 수 있도록 쓰기 권한 부여
+permissions:
+  contents: write
 
 jobs:
   run-bot:
@@ -27,4 +30,13 @@ jobs:
           TELEGRAM_TOKEN: ${{ secrets.TELEGRAM_TOKEN }}
           TELEGRAM_CHAT_ID: ${{ secrets.TELEGRAM_CHAT_ID }}
         run: |
-          python .github/workflows/WebCrawlingBot.py
+          python WebCrawlingBot.py
+
+      - name: 마지막 글 번호 깃허브에 저장 (Commit & Push)
+        run: |
+          git config --local user.email "action@github.com"
+          git config --local user.name "GitHub Action"
+          git add last_id.txt
+          # 변경사항(새 글)이 있을 때만 커밋
+          git commit -m "Auto-update last_id.txt" || echo "No changes to commit"
+          git push
