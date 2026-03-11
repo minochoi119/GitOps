@@ -1,4 +1,4 @@
-import cloudscraper # requests 대신 사용
+import cloudscraper
 from bs4 import BeautifulSoup
 import os
 
@@ -27,19 +27,13 @@ def main():
                 last_id = int(content)
 
     try:
-        # 일반 requests 대신 cloudscraper 사용
         scraper = cloudscraper.create_scraper()
         response = scraper.get(URL, headers=HEADERS)
         response.raise_for_status()
         soup = BeautifulSoup(response.text, 'html.parser')
 
-        # [디버깅] 차단당했는지 확인하기 위해 페이지 제목 출력
-        page_title = soup.title.text if soup.title else "제목 없음"
-        print(f"현재 로드된 페이지 제목: {page_title}")
-
         posts = soup.select('tr.us-post')
         
-        # 글 목록을 아예 못 가져왔다면 차단당한 것
         if not posts:
             print("경고: 게시글 목록을 찾을 수 없습니다. (IP 차단 의심)")
             return
@@ -53,8 +47,9 @@ def main():
             
             post_id = int(num_element.text)
             
+            # 🔥 논리적 오류 수정 완료: break(전체 중단) -> continue(현재 글만 패스)
             if last_id > 0 and post_id <= last_id:
-                break
+                continue
 
             if post_id > new_max_id:
                 new_max_id = post_id
