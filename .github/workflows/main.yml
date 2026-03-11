@@ -30,7 +30,7 @@ jobs:
           TELEGRAM_TOKEN: ${{ secrets.TELEGRAM_TOKEN }}
           TELEGRAM_CHAT_ID: ${{ secrets.TELEGRAM_CHAT_ID }}
         run: |
-          python WebCrawlingBot.py
+          python .github/workflows/WebCrawlingBot.py
 
       - name: 마지막 글 번호 깃허브에 저장 (Commit & Push)
         run: |
